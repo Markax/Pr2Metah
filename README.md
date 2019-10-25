@@ -1,3 +1,3 @@
-# Pr2Metah
-Practica 2 de metaheuristica
-Ésta es la práctica 2 de Metaheurística de la UJA
+# Práctica 2 de metaheuristica
+
+Practica 2 de metaheuristica de la UJA basada en la creación de algoritmos genéticos.
