@@ -17,9 +17,9 @@ import java.io.IOException;
  */
 public class Pr2Metah {
 
-    static Pair cubreOrdenado[];
-    static int cubre[];
-    static int matriz[][];
+    static Pair[] cubreOrdenado;
+    static int[] cubre;
+    static int[][] matriz;
     static int y, x;
 
     /**
@@ -129,7 +129,7 @@ public class Pr2Metah {
             gen = new Genetico();
             gen.AGGHux(x, y, matriz, cubreOrdenado, optimos[i], algoritmo[1]);
             gen = new Genetico();
-            gen.AGE(x, y, matriz, cubreOrdenado, optimos[i], algoritmo[2]);
+            gen.calculateAge(x, y, matriz, cubreOrdenado, optimos[i], algoritmo[2]);
             System.out.println();
         }
     }
