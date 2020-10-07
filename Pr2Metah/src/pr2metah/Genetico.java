@@ -17,14 +17,23 @@ import java.util.Random;
  */
 public class Genetico {
 
-    int tamPoblacion = 50;
+    private static final String HA_TARDADO = "HA TARDADO ";
+	private static final String FIN_DEL_ALGORITMO_EL_MEJOR_COSTE_ES_DE = "FIN DEL ALGORITMO, EL MEJOR COSTE ES DE: ";
+	private static final String ALGORITMO = "ALGORITMO: : ";
+	private static final String SEGUNDOS = " SEGUNDOS";
+	private static final String SE_HAN_HECHO = " SE HAN HECHO ";
+	private static final String ITERACCIONES = " ITERACCIONES";
+	private static final String EL_OPTIMO_ERA = " EL OPTIMO ERA: ";
+	int tamPoblacion = 50;
     int tabu;
     ArrayList<int[]> poblacion, descendencia;
     int costes[], costesAux[];
     double probGen;
     int nGeneracion;
     int anteriorMejor;
-
+    
+    Random rand= new Random();
+    
     /**
      * Realiza el algoritmo AGG-Fusión para el problema
      *
@@ -42,7 +51,6 @@ public class Genetico {
         poblacion = new ArrayList<>();
         costes = new int[tamPoblacion];
         descendencia = new ArrayList<>();
-        Random rand = new Random();
         nGeneracion = 0;
         anteriorMejor = 999999999;
         generarPoblacion(x, y, tamPoblacion, cubreOrdenado, matriz);
@@ -147,9 +155,9 @@ public class Genetico {
                 mejor = costes[i];
             }
         }
-        System.out.println("ALGORITMO: : " + alg);
-        System.out.println("FIN DEL ALGORITMO, EL MEJOR COSTE ES DE: " + mejor + " EL OPTIMO ERA: " + optimo + " SE HAN HECHO " + z + " ITERACCIONES");
-        System.out.println("HA TARDADO " + (float) (time_end - time_start) / 1000.0 + " SEGUNDOS");
+        System.out.println(ALGORITMO + alg);
+        System.out.println(FIN_DEL_ALGORITMO_EL_MEJOR_COSTE_ES_DE + mejor + EL_OPTIMO_ERA + optimo + SE_HAN_HECHO + z + ITERACCIONES);
+        System.out.println(HA_TARDADO + (float) (time_end - time_start) / 1000.0 + SEGUNDOS);
     }
 
     /**
@@ -171,7 +179,6 @@ public class Genetico {
         costes = new int[tamPoblacion];
         costesAux = new int[tamPoblacion];
         boolean modificado[] = new boolean[tamPoblacion];
-        Random rand = new Random();
         int muta = (Math.abs(rand.nextInt() % tamPoblacion));
         int h1[], h2[];
         anteriorMejor = 9999999;
@@ -280,9 +287,9 @@ public class Genetico {
                 mejor = costes[i];
             }
         }
-        System.out.println("ALGORITMO: : " + alg);
-        System.out.println("FIN DEL ALGORITMO, EL MEJOR COSTE ES DE: " + mejor + " EL OPTIMO ERA: " + optimo + " SE HAN HECHO " + z + " ITERACCIONES");
-        System.out.println("HA TARDADO " + (float) (time_end - time_start) / 1000.0 + " SEGUNDOS");
+        System.out.println(ALGORITMO + alg);
+        System.out.println(FIN_DEL_ALGORITMO_EL_MEJOR_COSTE_ES_DE + mejor + EL_OPTIMO_ERA + optimo + SE_HAN_HECHO + z + ITERACCIONES);
+        System.out.println(HA_TARDADO + (float) (time_end - time_start) / 1000.0 + SEGUNDOS);
     }
 
     /**
@@ -296,15 +303,17 @@ public class Genetico {
      * @param optimo coste optimo del fichero que se está evaluando
      * @param alg algoritmo que se esta evaluando
      */
-    public void AGE(int x, int y, int matriz[][], Pair cubreOrdenado[], String optimo, String alg) {
-        long time_start, time_end;
+    public void calculateAge(int x, int y, int matriz[][], Pair cubreOrdenado[], String optimo, String alg) {
+        long time_start;
+        long time_end;
         time_start = System.currentTimeMillis();
         poblacion = new ArrayList<>();
         descendencia = new ArrayList<>();
         costes = new int[tamPoblacion];
         costesAux = new int[2];
-        Random rand = new Random();
-        int h1[], h2[];
+        
+        int h1[];
+        int h2[];
         generarPoblacion(x, y, tamPoblacion, cubreOrdenado, matriz);
 
         int z = 50;
@@ -352,7 +361,6 @@ public class Genetico {
                 poblacion.set(1, descendencia.get(1).clone());
             }
             if (reinicializarConvAGE()) {
-                //System.out.println("-------- VOY A REINICIAR --------");
                 int mejor[] = poblacion.get(tamPoblacion - 1).clone();
                 int aux = costes[tamPoblacion - 1];
                 poblacion.clear();
@@ -370,9 +378,9 @@ public class Genetico {
                 mejor = costes[i];
             }
         }
-        System.out.println("ALGORITMO: : " + alg);
-        System.out.println("FIN DEL ALGORITMO, EL MEJOR COSTE ES DE: " + mejor + " EL OPTIMO ERA: " + optimo + " SE HAN HECHO " + z + " ITERACCIONES");
-        System.out.println("HA TARDADO " + (float) (time_end - time_start) / 1000.0 + " SEGUNDOS");
+        System.out.println(ALGORITMO + alg);
+        System.out.println(FIN_DEL_ALGORITMO_EL_MEJOR_COSTE_ES_DE + mejor + EL_OPTIMO_ERA + optimo + SE_HAN_HECHO + z + ITERACCIONES);
+        System.out.println(HA_TARDADO + (float) (time_end - time_start) / 1000.0 + SEGUNDOS);
     }
 
     /**
@@ -384,7 +392,6 @@ public class Genetico {
      */
     private void cruceF(int padre, int madre, int tam) { //MAS ADELANTE ARREGLARE LA SOLUCION Y QUITARE LAS REDUNDANCIAS
         int hijo[] = new int[tam];
-        Random rnd = new Random();
         float aleatorio;
         int costePapi1 = costes[padre];
         int costePapi2 = costes[madre];
@@ -394,7 +401,7 @@ public class Genetico {
             if (copia1[i] == copia2[i]) {   //Caso de ser iguales
                 hijo[i] = copia1[i];
             } else {                        //Caso contrario
-                aleatorio = (float) (Math.abs(rnd.nextInt() % 101)) / 100;
+				aleatorio = (float) (Math.abs(rand.nextInt() % 101)) / 100;
                 if (aleatorio <= p) {
                     hijo[i] = copia1[i];
                 } else {
@@ -415,7 +422,6 @@ public class Genetico {
      * @param tam tamanio de los vectores
      */
     private void hux(int padre[], int madre[], int hijo1[], int hijo2[], int tam) {
-        Random rand = new Random();
         for (int i = 1; i < tam; ++i) {
             if (padre[i] != madre[i]) {
                 if (rand.nextDouble() < 0.5) {
@@ -564,7 +570,6 @@ public class Genetico {
      * @param tam tamanio del vector
      */
     private void mutacion(int pos, int tam) {
-        Random rand = new Random();
         float prob;
         for (int i = 1; i < tam; ++i) {
             prob = (float) (Math.abs(rand.nextInt() % 101)) / 100;
@@ -599,12 +604,11 @@ public class Genetico {
      * @return el padre seleccionado
      */
     private int torneoBinario() {
-        Random rnd = new Random();
-        int n1 = Math.abs(rnd.nextInt() % poblacion.size());
-        int n2 = Math.abs(rnd.nextInt() % poblacion.size());
+        int n1 = Math.abs(rand.nextInt() % poblacion.size());
+        int n2 = Math.abs(rand.nextInt() % poblacion.size());
         while (n1 == n2 || n1 == tabu || n2 == tabu) {
-            n1 = Math.abs(rnd.nextInt() % poblacion.size());
-            n2 = Math.abs(rnd.nextInt() % poblacion.size());
+            n1 = Math.abs(rand.nextInt() % poblacion.size());
+            n2 = Math.abs(rand.nextInt() % poblacion.size());
         }
         int n = (costes[n1] <= costes[n2]) ? (1) : (2);
         tabu = n;
@@ -642,7 +646,6 @@ public class Genetico {
     private int[] generarCromosoma(int x, int y, Pair cubreOrdenado[], int matriz[][], int num) {
         int cromo[] = new int[y];
         int coste = 0;
-        Random rnd = new Random();
         int nR, n;
         for (int i = 1; i < y; i++) {
             cromo[i] = 0;
@@ -652,7 +655,7 @@ public class Genetico {
             array.add(i);
         }
         do {
-            nR = Math.abs(rnd.nextInt() % array.size());
+            nR = Math.abs(rand.nextInt() % array.size());
             n = array.remove(nR);
             ++cromo[n];
             coste += matriz[0][n];
@@ -677,11 +680,9 @@ public class Genetico {
         for (int i = 1; i < x; i++) {
             ok = false;
             for (int j = 1; j < y; j++) {
-                if (solucion[j] == 1) {
-                    if (matriz[i][j] == 1) {
+                if (solucion[j] == 1 && matriz[i][j] == 1) {
                         j = y;
                         ok = true;
-                    }
                 }
             }
             if (!ok) {
