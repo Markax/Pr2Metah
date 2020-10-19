@@ -83,14 +83,8 @@ public class Pr2Metah {
                     }
                 }
             }
-        } catch (IOException | NumberFormatException e) {
-        } finally {
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-            }
+        }catch(Exception e) {
+        	fr.close();
         }
     }
 
